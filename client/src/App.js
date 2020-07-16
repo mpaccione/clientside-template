@@ -2,6 +2,7 @@ import React from "react";
 import { Router } from "@reach/router";
 import { useSelector } from "react-redux";
 import { Message, Segment, Dimmer, Loader } from "semantic-ui-react";
+import LoginView from "./views/loginView";
 import logo from "./logo.svg";
 import "./App.scss";
 
@@ -11,18 +12,18 @@ function App() {
   const successMessage = useSelector((state) => state.error.successMessage);
   const loader = useSelector((state) => state.error.showLoader);
 
-  const LoggedOut = (props) => (
+  const LoggedIn = (props) => (
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
-      <h3>Not Logged In</h3>
+      <h3>Logged In</h3>
     </header>
   );
 
-  const LoggedIn = (props) => <div>Logged In</div>;
+  const LoggedOut = (props) => <LoginView />;
 
   return (
     <div className="App">
-      <Router>
+      <Router id="router">
         {!userData.token ? (
           <LoggedOut default path="/" />
         ) : (
