@@ -1,10 +1,17 @@
 import React from "react";
 import { Router } from "@reach/router";
 import { useSelector } from "react-redux";
-import { Message, Segment, Dimmer, Loader } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
+import Loadable from 'react-loadable';
 import LoginView from "./views/loginView";
+import Loading from "./components/loading";
 import logo from "./logo.svg";
 import "./App.scss";
+
+const EmailVerified = Loadable({
+  loader: () => import("./views/emailVerified"),
+  loading: Loading
+})
 
 function App() {
   const userData = useSelector((state) => state.user.userData);
@@ -29,6 +36,7 @@ function App() {
         ) : (
           <LoggedIn default path="/" />
         )}
+        <EmailVerified path="email-verified" />
       </Router>
       {errorMessage && errorMessage.length > 0 && (
         <Message
@@ -48,13 +56,7 @@ function App() {
           wide
         />
       )}
-      {loader && (
-        <Segment id="table-spinner">
-          <Dimmer active inverted>
-            <Loader inverted>Loading</Loader>
-          </Dimmer>
-        </Segment>
-      )}
+      {loader && <Loading />}
     </div>
   );
 }
